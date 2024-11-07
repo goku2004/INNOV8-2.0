@@ -1,47 +1,99 @@
-**To download the contents of the repository, press the code button and select "Download ZIP"**
 
+# Predicting Troop Betrayal: Machine Learning Pipeline
 
-**Welcome to Innov8!**
+## Introduction
 
-Hosted by **ARIES, IIT Delhi** in collaboration with **Eightfold.ai**, Innov8 is the ultimate convergence of creativity and technology. This event challenges you to leverage your innovation and technical skills to tackle real-world problems using machine learning models. Whether you're enhancing existing solutions or creating groundbreaking ones, Innov8 is your chance to showcase your ability to think outside the box and drive impactful change with AI. Ready to innovate?
+This repository contains the implementation of a machine learning pipeline aimed at predicting troop betrayal in the war against the Phrygians. The goal of the project is to build a system that analyzes various factors to predict the likelihood of betrayal among soldiers. The project utilizes multiple machine learning models and an ensemble approach to improve prediction accuracy.
 
-**Rewards & Benefits**
+## Table of Contents
+1. Introduction
+2. Dataset
+3. Pipeline Overview
+4. Dependencies
+5. Setup Instructions
+6. Results and Evaluation
+7. Future Improvements
 
-- **Exclusive Internship Opportunities**: Top performers may secure coveted internships at Eightfold.ai, providing a gateway to turn your Innov8 success into a career breakthrough.
-- **Massive Prize Pool**: Compete for a share of a ₹4L+ prize pool and earn exclusive merchandise as a reward for your creativity and technical brilliance.
-- **Compete with the Best**: Test your skills against top minds, push your limits, and elevate your expertise.
-General Rules
+---
 
-**Eligibility:**
+## 1. Dataset
 
-- Open to students currently enrolled in undergraduate programs at IITs, BITS and IISC Banglore.
-- Teams can consist of 2 to 5 members.
-- All participants must register on the [Unstop platform](https://unstop.com/hackathons/innov8-the-ultimate-innovation-challenge-in-machine-learning-and-ai-with-career-opportunities-rendezvous-2024-1150650) before the registration deadline.
+The dataset, `extended_dummy_troop_betrayal_dataset.csv`, contains features related to soldier profiles, such as salary satisfaction, bonus expectations, peer recognition, and more. The target variable is `Betrayal`, where `1` represents a soldier who is likely to betray, and `0` represents loyalty to the clan.
 
-**Duration:**
+### Dataset Columns:
+- `Salary_Satisfaction_Score`
+- `Bonus_Expectations`
+- `Phrygian_Offer_Exposure`
+- `Attraction_to_Phrygian_Ideals`
+- ... (more features related to soldier behavior and financial status)
+- `Betrayal` (Target)
 
-- Preliminary Round 1 (Online):
-Registration: 9th September - 23rd September 2024.
-- Problem Statement Release: 12th September 2024.
-- Submission Window: 12th - 23rd September 2024.
-- Results Announcement: 24th September 2024.
-- Final Round (Offline at IIT Delhi):
-- Date: 28th - 29th September 2024.
-- Duration: 36-hour hackathon.
-- Problem Statement Release: At the start of the event.
-- Meals (breakfast, lunch, dinner, refreshments) and accommodation will be provided to all finalists at IIT Delhi.
+---
+
+## 2. Pipeline Overview
+
+The machine learning pipeline follows these steps:
+
+### **Step 1: Data Ingestion**
+- The dataset is loaded into a Pandas DataFrame from a CSV file.
   
-**Submissions:**
+### **Step 2: Data Preprocessing**
+- Features are selected, and the target variable (`Betrayal`) is separated.
+- Data is cleaned and checked for missing values.
+  
+### **Step 3: Feature Selection**
+- All columns except the target column (`Betrayal`) are selected as features (`X`), and `y` represents the target.
 
-- Problem statements will be released at the start of each round.
-- All submissions must be completed before the specified deadlines and adhere to the formats mentioned in the problem statements.
-- 
-**Prizes:**
+### **Step 4: Train-Test Split**
+- The data is split into training (80%) and testing (20%) sets using `train_test_split`.
 
-- First Place: INR 2,00,000 cash prize.
-- Second Place: INR 1,00,000 cash prize.
-- Third Place: INR 50,000 cash prize.
-- Additional INR 75,000 in prizes for the best solutions in the categories of Innovation, Scalability, and Product.
-- Selected students may be eligible for internship opportunities with Eightfold AI.
+### **Step 5: Handling Imbalanced Classes**
+- SMOTE (Synthetic Minority Oversampling Technique) is used to handle class imbalance, oversampling the minority class (betrayal).
 
-**Registration Link:** Register at Unstop by clicking [here](https://unstop.com/hackathons/innov8-the-ultimate-innovation-challenge-in-machine-learning-and-ai-with-career-opportunities-rendezvous-2024-1150650)
+### **Step 6: Model Training**
+- Several classifiers are trained, including:
+  - Random Forest Classifier
+  - Gradient Boosting Classifier
+  - XGBoost
+  - LightGBM
+  - Logistic Regression
+  - Support Vector Classifier (SVC)
+
+### **Step 7: Ensemble Method**
+- A Voting Classifier is used to combine the predictions of multiple models to improve overall accuracy.
+
+### **Step 8: Model Evaluation**
+- The performance of the models is evaluated using `accuracy_score` on the test set.
+
+### **Step 9: Hyperparameter Tuning**
+- Grid Search with cross-validation (`GridSearchCV`) is used to tune model hyperparameters for optimal performance.
+
+### **Step 10: Prediction**
+- Final predictions are made on the test set using the best-performing model.
+
+## 3. Dependencies
+
+Ensure that the following Python libraries are installed:
+- `pandas`
+- `numpy`
+- `scikit-learn`
+- `xgboost`
+- `lightgbm`
+- `imblearn` (for SMOTE)
+
+
+## 5. Results and Evaluation
+
+The pipeline outputs accuracy scores for each model used. The best model is selected based on the highest accuracy achieved.
+
+---
+
+## 6. Future Improvements
+
+- Incorporate additional metrics like precision, recall, and F1-score to provide a more comprehensive evaluation of the model performance.
+- Explore advanced ensemble methods like Stacking.
+- Add more robust feature engineering techniques such as interaction terms or domain-specific features.
+- Expand the dataset and explore real-world factors to improve the prediction of betrayal.
+
+---
+
